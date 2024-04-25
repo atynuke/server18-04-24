@@ -1,4 +1,96 @@
-const fileSystem = require("fs");
+const express = require("express");
+const route = require('./expressRouter');
+const customer = require('./customer')
+const server = express();
+const port = 3030;
+
+const user= {
+    name: 'teni',
+    age: '22',
+    class: 'BatchB'
+}
+
+// server.use(execute)
+server.use(express.json());
+const userList =[];
+
+route(server);
+server.use('./customer', customer)
+
+
+server.get("/home", (req, res) => {
+  console.log(req);
+  res.status(200).send(JSON.stringify('Welcome Home!'));
+});
+
+server.get("/user", (req, res) => {
+    res.status(200).send(user);
+    res.end()
+})
+
+server.post("/user", (req, res) => {
+    console.log(req);
+  userList.push('Sample')
+    res.status(200).send(userList);
+    
+})
+
+server.get("/user", (req, res) => {
+    res.status(200).send(JSON.stringify('You are in Class route...'));
+})
+
+server.get("/class", (req, res) => {
+    console.log(req.url);
+    res.status(200).send(JSON.stringify('You are in Class route...'));
+  });  
+
+
+server.listen(port, "localhost", () => {
+  console.log(`Server Listening on Port ${port}`);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const fileSystem = require("fs");
 // const callback = (a, b) => {};
 
 // To create a text file (sample.txt)
@@ -44,7 +136,6 @@ const fileSystem = require("fs");
 //       }
 // });
 
-
 // if there is an error
 // fileSystem.appendFile(
 //   "./file/Sample.html",
@@ -60,7 +151,7 @@ const fileSystem = require("fs");
 
 // what are modules?
 // node modules, developer modules, third party
-// 
+//
 //developer modules
 // const  {add, checkEven} = require("./mymodules/Specials")
 
@@ -70,6 +161,3 @@ const fileSystem = require("fs");
 
 // const os = require("os")
 // console.log(os.homedir());
-
-
-

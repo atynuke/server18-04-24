@@ -1,44 +1,58 @@
 const express = require("express");
-const route = require('./expressRouter');
-const customer = require('./customer')
+const route = require("./route");
+const router = require('./expressRouter');
+const customer = require('./customer');
 const server = express();
+// const cors = require('cors' )
 const port = 3030;
 
-const user= {
-    name: 'teni',
-    age: '22',
-    class: 'BatchB'
-}
+
 
 // server.use(execute)
 server.use(express.json());
-const userList =[];
 
+
+// for making provision for customer a path
 route(server);
-server.use('./customer', customer)
+server.use(router)
+server.use('/customer', customer);
+server.use(express.json());
+// server.use(express.urlencoded({extended:true}));
 
 
-server.get("/home", (req, res) => {
+// for making provision for home a path
+server.get("/", (req, res) => {
   console.log(req);
   res.status(200).send(JSON.stringify('Welcome Home!'));
 });
 
+
+// for making provision for user a path
 server.get("/user", (req, res) => {
     res.status(200).send(user);
     res.end()
 })
 
-server.post("/user", (req, res) => {
+// for making provision for userList a path
+server.post("/userList", (req, res) => {
     console.log(req);
   userList.push('Sample')
     res.status(200).send(userList);
     
 })
 
-server.get("/user", (req, res) => {
-    res.status(200).send(JSON.stringify('You are in Class route...'));
+// for non existence end point.
+server.all("*", (req, res)=>{
+  res.status(404).send(JSON.stringify("Wahala Wahala Wahala!!!"))
 })
 
+
+// for making  user a path
+server.get("/user", (req, res) => {
+    res.status(200).send(JSON.stringify('You are in user route...'));
+})
+
+// for making provision for class a path
 server.get("/class", (req, res) => {
     console.log(req.url);
     res.status(200).send(JSON.stringify('You are in Class route...'));
